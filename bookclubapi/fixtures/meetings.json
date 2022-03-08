@@ -1,0 +1,38 @@
+[
+  {
+    "model": "bookclubapi.meeting",
+    "pk": 1,
+    "fields": {
+      "readers": [1],
+      "book": 2,
+      "date": "2021-10-04",
+      "time": "12:00",
+      "location": "at the bookstore",
+      "clubname": "Parnassus Book Club"
+    }
+  },
+  {
+    "model": "bookclubapi.meeting",
+    "pk": 2,
+    "fields": {
+      "readers": [1],
+      "book": 2,
+      "date": "2021-11-07",
+      "time": "12:00",
+      "location": "at the bookstore",
+      "clubname": "Parnassus Classics Club"
+    }
+  },
+  {
+    "model": "bookclubapi.meeting",
+    "pk": 3,
+    "fields": {
+      "readers": [1],
+      "book": 3,
+      "date": "2021-12-06",
+      "time": "12:00",
+      "location": "at the bookstore",
+      "clubname": "Parnassus Kids Book Club"
+    }
+  }
+]

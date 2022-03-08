@@ -1,0 +1,26 @@
+[
+  {
+    "model": "bookclubapi.book",
+    "pk": 1,
+    "fields": {
+      "title": "Commonwealth",
+      "author": "Ann Patchett"
+    }
+  },
+  {
+    "model": "bookclubapi.book",
+    "pk": 2,
+    "fields": {
+      "title": "I Miss You When I Blink",
+      "author": "Mary Laura Philpott"
+    }
+  },
+  {
+    "model": "bookclubapi.book",
+    "pk": 3,
+    "fields": {
+      "title": "Late Migrations",
+      "author": "Margaret Renkl"
+    }
+  }
+]

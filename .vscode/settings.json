@@ -4,5 +4,13 @@
   "python.linting.pylintArgs": [
       "--load-plugins=pylint_django",
       "--django-settings-module=bookclub.settings"
+  ],
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "name": "bookclub",
+      "database": "db.sqlite3"
+    }
   ]
 }

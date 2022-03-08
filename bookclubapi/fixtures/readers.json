@@ -1,0 +1,10 @@
+[
+  {
+    "model": "bookclubapi.reader",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "bio": "Store Manager"
+    }
+  }
+]
