@@ -5,12 +5,12 @@ from django.http import HttpResponseServerError
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
+from bookclubpapi.models import Book, Reader
 from rest_framework import status
-from bookclubapi.models import Book, Reader
 
 
 class BookView(ViewSet):
-    """Level up books"""
+    """book club books"""
 
     def create(self, request):
         """Handle POST operations
@@ -31,20 +31,27 @@ class BookView(ViewSet):
         book.reader = reader
 
 
+        # Use the Django ORM to get the record from the database
+        # whose `id` is what the client passed as the
+        # `gameTypeId` in the body of the request.
+        # game_type = GameType.objects.get(pk=request.data["gameTypeId"])
+        # game.game_type = game_type
+
+
         # Try to save the new book to the database, then
         # serialize the book instance as JSON, and send the
         # JSON as a response to the client request
         try:
             book.save()
             serializer = BookSerializer(book, context={'request': request})
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
         # If anything went wrong, catch the exception and
         # send a response with a 400 status code to tell the
         # client that something was wrong with its request data
         except ValidationError as ex:
             return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
-
 
 
     def retrieve(self, request, pk=None):
@@ -62,6 +69,10 @@ class BookView(ViewSet):
             book = Book.objects.get(pk=pk)
             serializer = BookSerializer(book, context={'request': request})
             return Response(serializer.data)
+
+        except Book.DoesNotExist as ex:
+            return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
+
         except Exception as ex:
             return HttpResponseServerError(ex)
 
@@ -71,6 +82,7 @@ class BookView(ViewSet):
         Returns:
             Response -- Empty body with 204 status code
         """
+
         reader = reader.objects.get(user=request.auth.user)
 
         # Do mostly the same thing as POST, but instead of
@@ -80,6 +92,10 @@ class BookView(ViewSet):
         book.title = request.data["title"]
         book.author = request.data["author"]
         book.reader = reader
+        
+        # game_type = GameType.objects.get(pk=request.data["gameTypeId"])
+        # game.game_type = game_type
+        # game.save()
 
         book.save()
 
@@ -87,6 +103,7 @@ class BookView(ViewSet):
         # server is not sending back any data in the response
         return Response({}, status=status.HTTP_204_NO_CONTENT)
 
+      
     def destroy(self, request, pk=None):
         """Handle DELETE requests for a single book
 
@@ -114,6 +131,13 @@ class BookView(ViewSet):
         # Get all book records from the database
         books = Book.objects.all()
 
+        # Support filtering games by type
+        #    http://localhost:8000/books?type=1
+        #
+        # That URL will retrieve all books
+        # game_type = self.request.query_params.get('type', None)
+        # if game_type is not None:
+        #     games = games.filter(game_type__id=game_type)
         # Support filtering books by type
         #    http://localhost:8000/games?type=1
         #
@@ -123,3 +147,16 @@ class BookView(ViewSet):
         serializer = BookSerializer(
             books, many=True, context={'request': request})
         return Response(serializer.data)
+
+
+class BookSerializer(serializers.ModelSerializer):
+    """JSON serializer for books
+
+    Arguments:
+        serializer type
+    """
+    class Meta:
+        model = Book
+        fields = ('id', 'title', 'author')
+        depth = 1
+
