@@ -5,7 +5,7 @@ from django.http import HttpResponseServerError
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
-from bookclubpapi.models import Book, Reader
+from bookclubapi.models import Book, Reader
 from rest_framework import status
 
 
@@ -159,4 +159,3 @@ class BookSerializer(serializers.ModelSerializer):
         model = Book
         fields = ('id', 'title', 'author')
         depth = 1
-
