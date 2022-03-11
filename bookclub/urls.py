@@ -24,7 +24,7 @@ from django.conf.urls import include
 from django.urls import path
 from rest_framework import routers
 from bookclubapi.views import register_user, login_user
-from bookclubapi.view import BookView, MeetingView
+from bookclubapi.views import BookView, MeetingView
 
 
 router = routers.DefaultRouter(trailing_slash=False)

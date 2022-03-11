@@ -8,7 +8,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
 from bookclubapi.models import Book, Meeting, Reader
-from bookclubpapi.views.book import BookSerializer
+from bookclubapi.views.book import BookSerializer
 
 
 class MeetingView(ViewSet):
