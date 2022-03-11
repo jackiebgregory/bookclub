@@ -22,7 +22,14 @@ Including another URLconf
 
 from django.conf.urls import include
 from django.urls import path
+from rest_framework import routers
 from bookclubapi.views import register_user, login_user
+from bookclubapi.view import BookView, MeetingView
+
+
+router = routers.DefaultRouter(trailing_slash=False)
+router.register(r'books', BookView, 'book') 
+router.register(r'meetings', MeetingView, 'meeting')
 
 urlpatterns = [
     path('register', register_user),
