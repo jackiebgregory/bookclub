@@ -102,7 +102,7 @@ class MeetingView(ViewSet):
         # Set the `joined` property on every meeting
         for meeting in meetings:
             # Check to see if the reader is in the attendees list on the meeting
-            meeting.joined = reader in meeting.attendees.all()
+            meeting.joined = reader in meeting.readers.all()
 
         # Support filtering meetings by book
         book = self.request.query_params.get('bookId', None)
@@ -167,7 +167,6 @@ class MeetingReaderSerializer(serializers.ModelSerializer):
         model = Reader
         fields = ['user']  
         
-        
 class MeetingSerializer(serializers.ModelSerializer):
     """JSON serializer for meetings"""
     organizer = MeetingReaderSerializer(many=False)
@@ -175,8 +174,8 @@ class MeetingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Meeting
-        fields = ('id', 'book', 'organizer',
-                  'title', 'date', 'time', 'attendees',
+        fields = ('id', 'reader', 'book',
+                  'title', 'date', 'time',
                 'joined')
 
 
