@@ -175,9 +175,10 @@ class MeetingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Meeting
-        fields = ('id', 'reader', 'book',
-                 'date', 'time', 'location',
-                'joined')
+        fields = ('id', 'book',
+                 'date', 'time', 
+                 'location', 'organizer',
+                 )
 
 
 class BookSerializer(serializers.ModelSerializer):
