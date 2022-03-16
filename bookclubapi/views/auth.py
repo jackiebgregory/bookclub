@@ -54,7 +54,7 @@ def register_user(request):
         last_name=request.data['last_name']
     )
 
-    # Now save the extra info in the levelupapi_gamer table
+    # Now save the extra info in the bookclubapi_reader table
     reader = Reader.objects.create(
         bio=request.data['bio'],
         user=new_user
