@@ -28,6 +28,7 @@ class MeetingView(ViewSet):
         meeting.location = request.data["location"]
         meeting.organizer = reader
 
+
         book = Book.objects.get(pk=request.data["book"])
         meeting.book = book
 
@@ -116,7 +117,7 @@ class MeetingView(ViewSet):
 
 
     @action(methods=['post', 'delete'], detail=True)
-    def signup(self, request, pk=None):
+    def join(self, request, pk=None):
         """Managing readers signing up for meetings"""
         # Django uses the `Authorization` header to determine
         # which user is making the request to sign up
@@ -137,7 +138,7 @@ class MeetingView(ViewSet):
             try:
                 # Using the attendees field on the meeting makes it simple to add a reader to the meeting
                 # .add(reader) will insert into the join table a new row the reader_id and the meeting_id
-                meeting.attendees.add(reader)
+                meeting.readers.add(reader)
                 return Response({}, status=status.HTTP_201_CREATED)
             except Exception as ex:
                 return Response({'message': ex.args[0]})
@@ -147,7 +148,7 @@ class MeetingView(ViewSet):
             try:
                 # The many to many relationship has a .remove method that removes the reader from the attendees list
                 # The method deletes the row in the join table that has the reader_id and meeting_id
-                meeting.attendees.remove(reader)
+                meeting.readers.remove(reader)
                 return Response(None, status=status.HTTP_204_NO_CONTENT)
             except Exception as ex:
                 return Response({'message': ex.args[0]})
@@ -177,7 +178,7 @@ class MeetingSerializer(serializers.ModelSerializer):
         model = Meeting
         fields = ('id', 'book',
                  'date', 'time', 
-                 'location', 'organizer',
+                 'location', 'organizer'
                  )
 
 
