@@ -16,18 +16,18 @@ class Profile(ViewSet):
         Returns:
             Response -- JSON representation of user info and meetings
         """
-        reader = reader.objects.get(user=request.auth.user)
-        meetings = Meeting.objects.filter(attendees=reader)
+        me = request.auth.user.reader
+        meetings = Meeting.objects.filter(organizer=me)
 
         meetings = MeetingSerializer(
             meetings, many=True, context={'request': request})
         reader = ReaderSerializer(
-            reader, many=False, context={'request': request})
+            me, many=False, context={'request': request})
 
         # Manually construct the JSON structure you want in the response
         profile = {}
         profile["reader"] = reader.data
-        profile["meetings"] = meetings.data
+        profile["mymeetings"] = meetings.data
 
         return Response(profile)
 
@@ -36,16 +36,6 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'username')
-
-
-class ReaderSerializer(serializers.ModelSerializer):
-    """JSON serializer for readers"""
-    user = UserSerializer(many=False)
-
-    class Meta:
-        model = Reader
-        fields = ('user', 'bio')
-
 
 class BookSerializer(serializers.ModelSerializer):
     """JSON serializer for books"""
@@ -63,3 +53,12 @@ class MeetingSerializer(serializers.ModelSerializer):
         fields = ('id', 'book',
                  'date', 'time', 
                  'location', 'organizer', 'joined')
+
+
+class ReaderSerializer(serializers.ModelSerializer):
+    """JSON serializer for readers"""
+    user = UserSerializer(many=False)
+    attending = MeetingSerializer(many=True)
+    class Meta:
+        model = Reader
+        fields = ('user', 'bio', 'attending')
