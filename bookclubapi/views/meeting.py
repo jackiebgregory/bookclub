@@ -178,7 +178,7 @@ class MeetingSerializer(serializers.ModelSerializer):
         model = Meeting
         fields = ('id', 'book',
                  'date', 'time', 
-                 'location', 'organizer', 'joined'
+                 'location', 'organizer', 'joined', 'clubname'
                  )
 
 
