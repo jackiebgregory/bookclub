@@ -18,16 +18,20 @@ class Profile(ViewSet):
         """
         me = request.auth.user.reader
         meetings = Meeting.objects.filter(organizer=me)
+        books = Book.objects.filter()
 
         meetings = MeetingSerializer(
             meetings, many=True, context={'request': request})
         reader = ReaderSerializer(
             me, many=False, context={'request': request})
+        books = BookSerializer(
+            books, many=True, context={'request': request})
 
         # Manually construct the JSON structure you want in the response
         profile = {}
         profile["reader"] = reader.data
         profile["mymeetings"] = meetings.data
+        profile["mybooks"] = books.data
 
         return Response(profile)
 

@@ -31,13 +31,6 @@ class BookView(ViewSet):
         book.reader = reader
 
 
-        # Use the Django ORM to get the record from the database
-        # whose `id` is what the client passed as the
-        # `gameTypeId` in the body of the request.
-        # game_type = GameType.objects.get(pk=request.data["gameTypeId"])
-        # game.game_type = game_type
-
-
         # Try to save the new book to the database, then
         # serialize the book instance as JSON, and send the
         # JSON as a response to the client request
@@ -130,19 +123,7 @@ class BookView(ViewSet):
         """
         # Get all book records from the database
         books = Book.objects.all()
-
-        # Support filtering games by type
-        #    http://localhost:8000/books?type=1
-        #
-        # That URL will retrieve all books
-        # game_type = self.request.query_params.get('type', None)
-        # if game_type is not None:
-        #     games = games.filter(game_type__id=game_type)
-        # Support filtering books by type
-        #    http://localhost:8000/games?type=1
-        #
-        # That URL will retrieve all books
-     
+        
 
         serializer = BookSerializer(
             books, many=True, context={'request': request})

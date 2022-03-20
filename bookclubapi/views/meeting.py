@@ -23,9 +23,10 @@ class MeetingView(ViewSet):
         reader = Reader.objects.get(user=request.auth.user)
 
         meeting = Meeting()
-        meeting.time = request.data["time"]
         meeting.date = request.data["date"]
+        meeting.time = request.data["time"]
         meeting.location = request.data["location"]
+        meeting.clubname = request.data["clubname"]
         meeting.organizer = reader
 
 
@@ -58,13 +59,15 @@ class MeetingView(ViewSet):
         Returns:
             Response -- Empty body with 204 status code
         """
-        # organizer = Reader.objects.get(user=request.auth.user)
+        organizer = Reader.objects.get(user=request.auth.user)
 
         meeting = Meeting.objects.get(pk=pk)
-        meeting.description = request.data["description"]
+        # meeting.description = request.data["description"]
         meeting.date = request.data["date"]
         meeting.time = request.data["time"]
-        # meeting.organizer = organizer
+        meeting.location = request.data["location"]
+        meeting.clubname = request.data["clubname"]
+        meeting.reader = organizer
 
         book = Book.objects.get(pk=request.data["bookId"])
         meeting.book = book
@@ -178,7 +181,7 @@ class MeetingSerializer(serializers.ModelSerializer):
         model = Meeting
         fields = ('id', 'book',
                  'date', 'time', 
-                 'location', 'organizer', 'joined', 'clubname'
+                 'location','clubname', 'organizer', 'joined' 
                  )
 
 
