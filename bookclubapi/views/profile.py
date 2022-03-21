@@ -5,7 +5,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
 from bookclubapi.models import Meeting, Reader, Book
-
+from bookclubapi.views.book import BookSerializer
 
 class Profile(ViewSet):
     """Reader can see profile information"""
