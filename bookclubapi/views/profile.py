@@ -5,7 +5,6 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
 from bookclubapi.models import Meeting, Reader, Book
-from bookclubapi.views.book import BookSerializer
 
 class Profile(ViewSet):
     """Reader can see profile information"""
@@ -18,7 +17,7 @@ class Profile(ViewSet):
         """
         me = request.auth.user.reader
         meetings = Meeting.objects.filter(organizer=me)
-        books = Book.objects.filter()
+        books = Book.objects.filter(selector=me)
 
         meetings = MeetingSerializer(
             meetings, many=True, context={'request': request})
@@ -45,7 +44,7 @@ class BookSerializer(serializers.ModelSerializer):
     """JSON serializer for books"""
     class Meta:
         model = Book
-        fields = ('title','author')
+        fields = ('title','author', 'selector')
 
 
 class MeetingSerializer(serializers.ModelSerializer):

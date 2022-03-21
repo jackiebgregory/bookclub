@@ -28,7 +28,7 @@ class BookView(ViewSet):
         book = Book()
         book.title = request.data["title"]
         book.author = request.data["author"]
-        book.reader = reader
+        book.selector = reader
 
 
         # Try to save the new book to the database, then
@@ -76,7 +76,7 @@ class BookView(ViewSet):
             Response -- Empty body with 204 status code
         """
 
-        reader = reader.objects.get(user=request.auth.user)
+        selector = Reader.objects.get(user=request.auth.user)
 
         # Do mostly the same thing as POST, but instead of
         # creating a new instance of Book, get the book record
@@ -84,7 +84,7 @@ class BookView(ViewSet):
         book = Book.objects.get(pk=pk)
         book.title = request.data["title"]
         book.author = request.data["author"]
-        book.reader = reader
+        book.reader = selector
 
         book.save()
 
@@ -115,7 +115,7 @@ class BookView(ViewSet):
         """Handle GET requests to books resource
 
         Returns:
-            Response -- JSON serialized list of games
+            Response -- JSON serialized list of books
         """
         # Get all book records from the database
         books = Book.objects.all()
@@ -134,5 +134,5 @@ class BookSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Book
-        fields = ('id', 'title', 'author')
+        fields = ('id', 'title', 'author', 'selector')
         depth = 1
