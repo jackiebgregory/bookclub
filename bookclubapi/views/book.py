@@ -56,7 +56,7 @@ class BookView(ViewSet):
         try:
             # `pk` is a parameter to this function, and
             # Django parses it from the URL route parameter
-            #   http://localhost:8000/games/2
+            #   http://localhost:8000/books/2
             #
             # The `2` at the end of the route becomes `pk`
             book = Book.objects.get(pk=pk)
@@ -85,10 +85,6 @@ class BookView(ViewSet):
         book.title = request.data["title"]
         book.author = request.data["author"]
         book.reader = reader
-        
-        # game_type = GameType.objects.get(pk=request.data["gameTypeId"])
-        # game.game_type = game_type
-        # game.save()
 
         book.save()
 
