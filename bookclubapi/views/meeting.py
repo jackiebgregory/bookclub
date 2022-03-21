@@ -62,7 +62,6 @@ class MeetingView(ViewSet):
         organizer = Reader.objects.get(user=request.auth.user)
 
         meeting = Meeting.objects.get(pk=pk)
-        # meeting.description = request.data["description"]
         meeting.date = request.data["date"]
         meeting.time = request.data["time"]
         meeting.location = request.data["location"]
