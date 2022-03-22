@@ -44,7 +44,7 @@ class BookSerializer(serializers.ModelSerializer):
     """JSON serializer for books"""
     class Meta:
         model = Book
-        fields = ('title','author', 'selector')
+        fields = ('id', 'title','author', 'selector')
 
 
 class MeetingSerializer(serializers.ModelSerializer):
