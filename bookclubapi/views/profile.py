@@ -55,7 +55,7 @@ class MeetingSerializer(serializers.ModelSerializer):
         model = Meeting
         fields = ('id', 'book',
                  'date', 'time', 
-                 'location', 'organizer', 'joined')
+                 'location', 'organizer', 'joined', 'clubname')
 
 
 class ReaderSerializer(serializers.ModelSerializer):
@@ -64,4 +64,4 @@ class ReaderSerializer(serializers.ModelSerializer):
     attending = MeetingSerializer(many=True)
     class Meta:
         model = Reader
-        fields = ('user', 'bio', 'attending')
+        fields = ('id', 'user', 'bio', 'attending')
